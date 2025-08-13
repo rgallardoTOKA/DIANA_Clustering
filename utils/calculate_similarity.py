@@ -2,16 +2,17 @@
 from typing import Callable
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 def l2_norm(
-    a: np.ndarray, b: np.ndarray
+    a: NDArray[np.float64], b: NDArray[np.float64]
 ) -> np.floating:  # function to calculate L2 norm of a vector
     """Calculates similarity with L2 norm
 
     Args:
-        a (np.ndarray): Vector A
-        b (np.ndarray): Vector B
+        a (NDArray[np.float64]): Vector A
+        b (NDArray[np.float64]): Vector B
 
     Returns:
         np.floating: L2 norm similiarity between vectors
@@ -20,12 +21,12 @@ def l2_norm(
     return np.linalg.norm(x)
 
 
-def cosine(a: np.ndarray, b: np.ndarray) -> np.floating:
+def cosine(a: NDArray[np.float64], b: NDArray[np.float64]) -> np.floating:
     """Caclulates cosine similarity for two vectors
 
     Args:
-        a (np.ndarray): Vector A
-        b (np.ndarray): Vector B
+        a (NDArray[np.float64]): Vector A
+        b (NDArray[np.float64]): Vector B
 
     Returns:
         np.floating: Cosine similarity for vectors
@@ -34,16 +35,16 @@ def cosine(a: np.ndarray, b: np.ndarray) -> np.floating:
 
 
 def SimilarityMeasure(
-    a: np.ndarray,
-    b: np.ndarray,
-    func: Callable[[np.ndarray, np.ndarray], np.floating] = l2_norm,
+    a: NDArray[np.float64],
+    b: NDArray[np.float64],
+    func: Callable[[NDArray[np.float64], NDArray[np.float64]], np.floating] = l2_norm,
 ) -> np.floating:
     """Facade function to perform similarity meassure
 
     Args:
-        a (np.ndarray): Vector A
-        b (np.ndarray): Vector B
-        func (Callable[[np.ndarray, np.ndarray], np.floating], optional): Function to perform similarity by, accepts l2_norm and cosine. Defaults to l2_norm.
+        a (NDArray[np.float64]): Vector A
+        b (NDArray[np.float64]): Vector B
+        func (Callable[[NDArray[np.float64], NDArray[np.float64]], np.floating], optional): Function to perform similarity by, accepts l2_norm and cosine. Defaults to l2_norm.
 
     Raises:
         ValueError: If func is not correct raise Error to inform user
