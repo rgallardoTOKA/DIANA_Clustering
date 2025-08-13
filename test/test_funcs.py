@@ -35,7 +35,7 @@ def test_Similarity_cosine(sample_data):
 # / Testing DIANA
 @pytest.fixture
 def diana():
-    return DianaClustering(data=pd.read_csv("test/data/HAYES_ROTH.csv"))
+    return DianaClustering(data=pd.read_csv("test/data/HAYES_ROTH_Modified.csv"))
 
 
 @pytest.fixture
@@ -47,6 +47,8 @@ def test_sim_matrix(diana):
     assert diana.similarity_matrix.shape == (132, 132)
 
 
-# TODO: is this not deterministic?
 def test_fit(diana, sample_classes):
     np.testing.assert_array_equal(diana.fit(3), sample_classes)
+
+def test_predict(diana):
+    pass

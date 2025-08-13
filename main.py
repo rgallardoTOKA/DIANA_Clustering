@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from src.DIvisiveANAlysis import DianaClustering
@@ -13,6 +14,7 @@ def main():
         3
     )  # as there is 3 classes we chose to divide the dataset in 3 clusters
     print(clusters)
+    np.save("test/data/example_classes.npy", clusters)
 
 
 if __name__ == "__main__":
