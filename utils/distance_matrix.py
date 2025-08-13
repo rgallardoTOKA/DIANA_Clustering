@@ -1,11 +1,10 @@
+import os
 import pickle
-import shutil
 from pathlib import Path
 from uuid import UUID, uuid4
 
 import numpy as np
 import pandas as pd
-
 from __init__ import CACHE_DIR
 from calculate_similarity import SimilarityMeasure
 
@@ -44,11 +43,13 @@ def DistanceMatrix(data: pd.DataFrame | None = None, uuid: UUID = uuid4()):
         for j in range(N):
             similarity_mat[i][j] = SimilarityMeasure(Data_list[i], Data_list[j])
 
-        with open(pickleFilePath, "wb") as file:
-            pickle.dump(similarity_mat, file)
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    with open(pickleFilePath, "wb") as file:
+        pickle.dump(similarity_mat, file)
 
-    temp_file = open(pickleFilePath, "rb")
-    return pickle.load(temp_file)
+    # temp_file = open(pickleFilePath, "rb")
+    # return pickle.load(temp_file)
+    return similarity_mat
 
 
 if __name__ == "__main__":

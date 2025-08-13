@@ -1,16 +1,25 @@
+from dataclasses import dataclass, field
+from uuid import UUID, uuid4
+
 import numpy as np
 import pandas as pd
 
-from distance_matrix import DistanceMatrix
+from utils.delete_cache import delete_cache
+from utils.distance_matrix import DistanceMatrix
 
 
 # this is the main class that computes the clusters using diana algorithm
+@dataclass
 class DianaClustering:
-    def __init__(self, data):
+    data: pd.DataFrame
+    n_samples: int = field(init=False)
+    n_features: int = field(init=False)
+    uuid: UUID = uuid4()
+
+    def __post_init__(self):
         """
         constructor of the class, it takes the main data frame as input
         """
-        self.data = data
         self.n_samples, self.n_features = data.shape
 
     def fit(self, n_clusters):
@@ -20,15 +29,17 @@ class DianaClustering:
         arguements
         ----------
         n_clusters - integer
-                                 number of clusters we want
+                                                         number of clusters we want
 
         returns
         -------
         cluster_labels - numpy array
-                                         an array where cluster number of a sample corrosponding to
-                                         the same index is stored
+                                                                         an array where cluster number of a sample corrosponding to
+                                                                         the same index is stored
         """
-        similarity_matrix = DistanceMatrix(self.data)  # similarity matrix of the data
+        similarity_matrix = DistanceMatrix(
+            self.data, self.uuid
+        )  # similarity matrix of the data
         clusters = [
             list(range(self.n_samples))
         ]  # list of clusters, initially the whole dataset is a single cluster
@@ -77,7 +88,7 @@ class DianaClustering:
         return cluster_labels
 
     def __del__(self):
-        pass
+        delete_cache(self.uuid)
 
 
 if __name__ == "__main__":
