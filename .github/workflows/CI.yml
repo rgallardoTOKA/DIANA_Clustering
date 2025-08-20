@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+    # Step 1.5: Check with ruff
+      - name: ruff-action
+        uses: astral-sh/ruff-action@v3.5.1
+      
+      # Step 2: Install uv
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.7.2" # Pin to a specific uv version
+      
+      # Step 3: Sync dependencies using uv.toml
+      - name: Sync Dependencies
+        run: uv sync --locked --all-extras --dev
+      
+      # Step 4: Run tests
+      - name: Run Tests
+        run: uv run pytest test/
