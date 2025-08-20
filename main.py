@@ -9,12 +9,16 @@ def main():
     data = data.drop(columns="Name")  # droping the unnecessary features
     data = data.drop(columns="Class")
 
-    diana = DianaClustering(data)  # applying the Diana Clustering algorithm
-    clusters = diana.fit(
-        3
-    )  # as there is 3 classes we chose to divide the dataset in 3 clusters
-    print(clusters)
+    diana = DianaClustering(n_clusters=3)
+    clusters = diana.fit_predict(
+        # diana.fit(
+        data
+    )  # as there is 3 classes we chose to divide the dataset in 3 clusters  # applying the Diana Clustering algorithm
+
     np.save("test/data/example_classes.npy", clusters)
+    np.save("test/data/example_simmilarity.npy", diana.similarity_matrix)
+    prediction = diana.predict([[2, 1, 3, 2], [2, 4, 5, 6]])
+    print(prediction)
 
 
 if __name__ == "__main__":
