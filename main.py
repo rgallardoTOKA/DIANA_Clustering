@@ -16,9 +16,9 @@ def main():
     )  # as there is 3 classes we chose to divide the dataset in 3 clusters  # applying the Diana Clustering algorithm
 
     np.save("test/data/example_classes.npy", clusters)
-    np.save("test/data/example_simmilarity.npy", diana.similarity_matrix)
-    prediction = diana.predict([[2, 1, 3, 2], [2, 4, 5, 6]])
-    print(prediction)
+    # np.save("test/data/example_simmilarity.npy", diana.similarity_matrix)
+    # prediction = diana.predict([[2, 1, 3, 2], [2, 4, 5, 6]])
+    # print(prediction)
 
 
 if __name__ == "__main__":
