@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import pandas as pd
 
 from src.DIvisiveANAlysis import DianaClustering
@@ -10,15 +10,18 @@ def main():
     data = data.drop(columns="Class")
 
     diana = DianaClustering(n_clusters=3)
-    clusters = diana.fit_predict(
-        # diana.fit(
+    # clusters = diana.fit_predict(
+    diana.fit(
         data
     )  # as there is 3 classes we chose to divide the dataset in 3 clusters  # applying the Diana Clustering algorithm
 
-    np.save("test/data/example_classes.npy", clusters)
+    # np.save("test/data/example_classes.npy", clusters)
     # np.save("test/data/example_simmilarity.npy", diana.similarity_matrix)
-    # prediction = diana.predict([[2, 1, 3, 2], [2, 4, 5, 6]])
-    # print(prediction)
+    test_data = pd.DataFrame([[2, 1, 3, 2], [2, 4, 5, 6]])
+    prediction = diana.predict(test_data)
+    test_data["predictions"] = prediction
+    print(test_data)
+    print(diana.labels_)
 
 
 if __name__ == "__main__":

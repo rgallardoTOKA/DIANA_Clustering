@@ -1,35 +1,9 @@
 import numpy as np
 import pandas as pd
 import pytest
+from sklearn.exceptions import NotFittedError
 
 from src.DIvisiveANAlysis import DianaClustering
-from utils.calculate_similarity import SimilarityMeasure, cosine, l2_norm
-
-
-# / Testing Utils
-@pytest.fixture
-def sample_data():
-    return np.array([2, 1, 2, 3, 2, 9]), np.array([3, 4, 2, 4, 5, 5])
-
-
-def test_l2(sample_data):
-    a, b = sample_data
-    assert l2_norm(a, b) == 6.0
-
-
-def test_cosine(sample_data):
-    a, b = sample_data
-    assert cosine(a, b) == pytest.approx(0.8188504723485274)
-
-
-def test_Similarity_l2(sample_data):
-    a, b = sample_data
-    assert SimilarityMeasure(a=a, b=b, func=l2_norm) == 6.0
-
-
-def test_Similarity_cosine(sample_data):
-    a, b = sample_data
-    assert SimilarityMeasure(a=a, b=b, func=cosine) == pytest.approx(0.8188504723485274)
 
 
 # / Testing DIANA
@@ -67,6 +41,25 @@ def test_sim_matrix(diana, sample_sim_matrix, sample_dataframe):
     np.testing.assert_array_equal(diana.similarity_matrix, sample_sim_matrix)
 
 
-def test_predict(diana, sample_dataframe):
+def test_predict_simple(diana, sample_dataframe):
     diana.fit(sample_dataframe)
     assert diana.predict([[2, 1, 3, 2]]) == [0.0]
+
+
+def test_predict_multiple(diana, sample_dataframe):
+    diana.fit(sample_dataframe)
+    np.testing.assert_array_equal(
+        diana.predict([[2, 1, 3, 2], [2, 4, 5, 6]]), [0.0, 0.0]
+    )
+
+
+def test_no_fit_predict(diana):
+    with pytest.raises(NotFittedError):
+        diana.predict([[2, 1, 3, 2]])
+
+
+def test_not_correct_structure_predict(diana, sample_dataframe):
+    diana.fit(sample_dataframe)
+    print(diana.n_features_in_)
+    # with pytest.raises(NotFittedError):
+    diana.predict([[2, 1, 3]])
