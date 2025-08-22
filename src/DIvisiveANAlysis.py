@@ -55,7 +55,7 @@ class DianaClustering(BaseEstimator, ClusterMixin):
     def fit(self, X: ArrayLike):
         self.data = X
         self.n_samples = self.data.shape[0]  # type: ignore
-        self.similarity_matrix = squareform(pdist(X, metric=self.similarity_func)) # type: ignore
+        self.similarity_matrix = squareform(pdist(X, metric=self.similarity_func))  # type: ignore
 
         clusters = [
             list(range(self.n_samples))
